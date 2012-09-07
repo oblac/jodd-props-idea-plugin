@@ -1,5 +1,5 @@
 <!DOCTYPE idea-plugin PUBLIC "Plugin/DTD" "http://plugins.intellij.net/plugin.dtd">
-<idea-plugin version="4" url="http://jodd.org/doc/props.html">
+<idea-plugin version="5" url="http://jodd.org/doc/props.html">
 
 	<id>org.jodd.idea.props</id>
 	<name>Jodd Props Support</name>
@@ -14,16 +14,18 @@ Enables editing of <a href="http://jodd.org">Jodd</a> props files.<br/>
 	<li>Highlight macros in values</li>
 	<li>Customizable highlighting colors</li>
 	<li>Code folding for section blocks</li>
+	<li>Triplequote multiline values</li>
 </ul>
 </p>
 	]]>
 	</description>
 	<category>Custom Languages</category>
-	<version>0.52</version>
+	<version>0.6</version>
 	<idea-version since-build="103.72"/>
 	<vendor logo="/gfx/jodd.png" url="http://jodd.org" email="info@jodd.org">Jodd Team</vendor>
 	<change-notes><![CDATA[
 <ul>
+	<li>0.6: Triplequote multiline values added</li>
 	<li>0.52: Fixed issue with some special chars in values</li>
 	<li>0.51: Fixed plugin.xml unclosed tag</li>
 	<li>0.5: Public release</li>
