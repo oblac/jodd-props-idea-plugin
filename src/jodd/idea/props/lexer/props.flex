@@ -37,13 +37,14 @@ PROFILE = "<" {PROFILE_NAME} ">"
 
 KEY = [^:=\n\r\ \t\f\\<] | "\\"{CRLF} | "\\".
 KEY_SEPARATOR = {SPACE}* [:=] {SPACE}* | {SPACE}+
+TRIPLEQUOTE = "'''"
 VALUE = [^\n\r\f\\$] | "\\"{CRLF} | "\\${" | "\\".
 
 MACRO_NAME = [^\n\r\ \t\f\}]*
 MACRO="${" {MACRO_NAME} "}"
 
 // states
-%state IN_VALUE
+%state IN_VALUE, IN_MULTILINEVALUE
 
 %%
 
@@ -58,11 +59,16 @@ MACRO="${" {MACRO_NAME} "}"
 	{KEY}*									{ return TOKEN_KEY; }
 	{PROFILE}*								{ return TOKEN_PROFILE; }
 	{KEY_SEPARATOR}							{ yybegin(IN_VALUE); return TOKEN_KEY_VALUE_SEPARATOR;}
+	({KEY_SEPARATOR}{TRIPLEQUOTE})			{ yybegin(IN_MULTILINEVALUE); return TOKEN_KEY_VALUE_SEPARATOR_TRIPLEQUOTE; }
 }
 <IN_VALUE> {
 	{VALUE}*								{ return TOKEN_VALUE; }
 	{MACRO}*								{ return TOKEN_MACRO; }
 	{CRLF}									{ yybegin(YYINITIAL); return WHITE_SPACE; }
+}
+<IN_MULTILINEVALUE> {
+	.										{ return TOKEN_VALUE;}
+	{TRIPLEQUOTE}							{ yybegin(YYINITIAL); return WHITE_SPACE; }
 }
 
 // special cases

@@ -19,6 +19,7 @@ public interface PropsTokenTypes {
 	IElementType TOKEN_KEY = new PropsToken("KEY");
 	IElementType TOKEN_VALUE = new PropsToken("VALUE");
 	IElementType TOKEN_KEY_VALUE_SEPARATOR = new PropsToken("KEY_VALUE_SEPARATOR");
+	IElementType TOKEN_KEY_VALUE_SEPARATOR_TRIPLEQUOTE = new PropsToken("KEY_VALUE_SEPARATOR_TRIPLEQUOTE");
 	IElementType TOKEN_MACRO = new PropsToken("MACRO");
 	IElementType TOKEN_PROFILE = new PropsToken("PROFILE");
 

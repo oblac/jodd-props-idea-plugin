@@ -92,9 +92,14 @@ public class PropsParser implements PsiParser {
 
 			parseKey(builder);
 
-			if (builder.getTokenType() == PropsTokenTypes.TOKEN_KEY_VALUE_SEPARATOR) {
+			IElementType tokenType = builder.getTokenType();
+
+			if (tokenType == PropsTokenTypes.TOKEN_KEY_VALUE_SEPARATOR) {
 				parseKeyValueSeparator(builder);
 				parseValue(builder);
+			} else if (tokenType == PropsTokenTypes.TOKEN_KEY_VALUE_SEPARATOR_TRIPLEQUOTE) {
+				builder.advanceLexer();
+				parseMultilineValue(builder);
 			}
 
 			// done with prop psi element, this will invoke
@@ -122,6 +127,30 @@ public class PropsParser implements PsiParser {
 				break;
 			}
 		}
+		// if value is not empty, create PSI element
+		if (hasValue) {
+			valueMarker.done(PropsElementTypes.VALUE);
+		} else {
+			valueMarker.drop();
+		}
+	}
+
+	/**
+	 * Parses triple quoted multiline value.
+	 */
+	private static void parseMultilineValue(final PsiBuilder builder) {
+		final PsiBuilder.Marker valueMarker = builder.mark();
+		boolean hasValue = false;
+
+		while (!builder.eof()) {
+			if (builder.getTokenType() == PropsTokenTypes.TOKEN_VALUE) {
+				hasValue = true;
+				builder.advanceLexer();
+			} else {
+				break;
+			}
+		}
+
 		// if value is not empty, create PSI element
 		if (hasValue) {
 			valueMarker.done(PropsElementTypes.VALUE);
